@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useContext } from "react";
 import Header from "../headerMovieList";
 import FilterCard from "../filterMoviesCard";
 import TvList from "../tvList";
@@ -8,6 +8,9 @@ import {makeStyles} from "@material-ui/core"
 import Fab from "@mui/material/Fab";
 import * as auth from "firebase/auth"
 import fireapp from "../../firebase";
+import { AuthContext } from "../../contexts/authContext"
+
+
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -40,7 +43,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 function TvPageListTemplate({ tvShows, title, action, pages,setPage }) {
-
+  const context = useContext(AuthContext);
   //States
   const [nameFilter, setNameFilter] = useState("");
   const [genreFilter, setGenreFilter] = useState("0");
@@ -119,7 +122,7 @@ function TvPageListTemplate({ tvShows, title, action, pages,setPage }) {
         }} />
         </div>
         <div className={classes.signOut}>
-        <Fab color="primary" variant="extended" onClick={() => auth.signOut(fireapp)}> Sign Out!</Fab>
+        <Fab color="primary" variant="extended" onClick={() => context.signout()}> Sign Out!</Fab>
         </div>
         <div className={classes.deleteAccount}>
         <Fab color="secondary" variant="extended" onClick={() => auth.deleteUser(fireapp.currentUser)}>Delete Account!</Fab>
