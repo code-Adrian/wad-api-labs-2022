@@ -1,9 +1,9 @@
-import React, { useCallback,useState} from "react";
-import fireapp from "../../firebase";
-import * as auth from "firebase/auth"
+import React, { useCallback,useState,useContext} from "react";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
+import { AuthContext } from "../../contexts/authContext"
 const SignUp = () => {
+  const context = useContext(AuthContext);
 
     const [textColor, setColor] = useState("white")
     const [text, setText] = useState("Register");
@@ -11,12 +11,17 @@ const SignUp = () => {
   const handleSignUp = useCallback(async event => {
     event.preventDefault();
     const { email, password } = event.target.elements;
+    let passwordRegEx = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{5,}$/;
+    const validPassword = passwordRegEx.test(password.value);
+    if(validPassword){
     try {
-      await auth.createUserWithEmailAndPassword(fireapp,email.value, password.value);  
-
+      await context.register(email.value,password.value)
     } catch (error) {
         setText(error.toString())
         setColor("red");
+    }}else{
+      setText("Password must be atleast 5 characters long in length.")
+      setColor("red");
     }
   }, []);
 

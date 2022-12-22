@@ -28,6 +28,9 @@ export const AuthContextProvider = (props) => {
   const register = async (username, password) => {
     const result = await signup(username, password);
     console.log(result.code);
+    if(result.code == 201){
+      setIsAuthenticated(true);
+    }
     return (result.code == 201) ? true : false;
   };
 
