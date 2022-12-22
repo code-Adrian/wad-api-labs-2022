@@ -1,11 +1,11 @@
 import React, { useContext } from "react";
 import { Navigate, Outlet } from "react-router-dom";
-import { AuthContext } from "../../contexts/auth";
+import { AuthContext } from "../../contexts/authContext";
 
 const NotAuthRoute = () => {
-  const {currentUser} = useContext(AuthContext);
-  console.log(currentUser)
-  return !!currentUser ? ( <Navigate to={"/"}/> ) : <Outlet/> 
+  const context = useContext(AuthContext);
+
+  return !!context.isAuthenticated ? ( <Navigate to={"/"}/> ) : <Outlet/> 
 };
 
 

@@ -1,11 +1,9 @@
 import React, { useContext } from "react";
 import { Navigate, Outlet } from "react-router-dom";
-import { AuthContext } from "../../contexts/auth";
-
+import { AuthContext } from "../../contexts/authContext";
 const AuthRoute = () => {
-  const {currentUser} = useContext(AuthContext);
-  console.log(currentUser)
-  return currentUser ? <Outlet/> : ( <Navigate to={"/login"}/> )
+  const context = useContext(AuthContext);
+  return context.isAuthenticated ? <Outlet/> : ( <Navigate to={"/login"}/> )
 };
 
 

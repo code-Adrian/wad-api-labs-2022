@@ -12,6 +12,8 @@ router.get('/', async (req, res) => {
     res.status(200).json(users);
 });
 
+
+
 // Register OR authenticate a user
 router.post('/',asyncHandler( async (req, res, next) => {
     if (!req.body.username || !req.body.password) {

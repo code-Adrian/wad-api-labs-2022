@@ -21,7 +21,7 @@ import TvPage from "./pages/tvPage";
 import TvContextProvider from "./contexts/tvContext";
 import Login from "./components/login"
 import Signup from "./components/signup"
-import { AuthProvider } from "./contexts/auth";
+import { AuthContextProvider } from "./contexts/authContext";
 import AuthRoute from "./components/authroute";
 import NotAuthRoute from "./components/notauthroute";
 const queryClient = new QueryClient({
@@ -39,7 +39,7 @@ const App = () => {
     
     <QueryClientProvider client={queryClient}>
     <BrowserRouter>
-    <AuthProvider>
+    <AuthContextProvider>
       <SiteHeader />
       <TvContextProvider>
       <MoviesContextProvider>
@@ -75,7 +75,7 @@ const App = () => {
       </Routes>
       </MoviesContextProvider>
       </TvContextProvider>
-      </AuthProvider>
+      </AuthContextProvider>
     </BrowserRouter>
     <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>
