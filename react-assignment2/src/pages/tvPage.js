@@ -1,15 +1,19 @@
 import React, {useState,useEffect} from "react";
-import { getTvPage } from "../api/tmdb-api";
 import PageTemplate from '../components/templateTvListPage';
 import { useQuery } from 'react-query';
 import Spinner from '../components/spinner';
 import AddToFavoritesIcon from '../components/cardIcons/addToFavoritesTvShow';
-
+import { getTvShows } from "../api/movie-api";
 
 const TvPage = (props) => {
   const [page,setPage] = useState(1)
-
-  const  {  data, error, isLoading, isError,refetch }  = useQuery("tv", () => getTvPage(page),{enabled: true }) 
+  const [movieResults,setMovieResults] = useState([])
+  const [moviePageResult,setMoviePageResult] = useState([])
+  const  {  data, error, isLoading, isError,refetch }  = useQuery("tv", () => getTvShows(page).then(result => {
+    setMovieResults(result.results)
+    setMoviePageResult(result.total_pages)
+    console.log(data)
+  }),{enabled: true }) 
 
   useEffect(() => { 
     refetch();
@@ -26,12 +30,8 @@ const TvPage = (props) => {
     return <h1>{error.message}</h1>
   } 
 
- //Gets the result for the first page 
- const tvShows = data.results;
- //gets the total number of available pages for the query -- MAX is 500
- //const total_pages = data.total_pages // -- For pagination
- //gets the current page
- const current_page = data.page
+  const tvShows = movieResults;
+  const current_page = moviePageResult;
 
    
   // Redundant, but necessary to avoid app crashing.

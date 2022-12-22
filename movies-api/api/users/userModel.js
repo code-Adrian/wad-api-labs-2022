@@ -14,7 +14,8 @@ const Schema = mongoose.Schema;
   UserSchema.statics.findByUserName = function (username) {
     return this.findOne({ username: username });
   };
-  
+
+
   UserSchema.methods.comparePassword = function (passw, callback) {
     bcrypt.compare(passw, this.password, (err, isMatch) => {
       if (err) {

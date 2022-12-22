@@ -18,6 +18,16 @@ export const signup = (username, password) => {
     }).then(res => res.json())
 };
 
+export const deleteUser = (username) => {
+    return fetch('/api/users?action=delaccount', {
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        method: 'post',
+        body: JSON.stringify({ username: username })
+    }).then(res => res.json())
+};
+
 export const getMovies = () => {
     return fetch(
        '/api/movies', {
@@ -30,4 +40,80 @@ export const getMovies = () => {
     }).catch((error) => {
         console.log(error);
     });
+  };
+
+  export const getUpcomingMovies = (page) => {
+    return fetch(
+        `/api/movies/tmdb/upcoming/${page}`, {
+             headers: {
+                 'Authorization': window.localStorage.getItem('token')
+             }
+         }
+     ).then(res => {
+       
+         return res.json();
+     }).catch((error) => {
+         console.log(error);
+     });
+  };
+
+  export const getDiscoverMovies = (page) => {
+    return fetch(
+        `/api/movies/tmdb/discover/${page}`, {
+             headers: {
+                 'Authorization': window.localStorage.getItem('token')
+             }
+         }
+     ).then(res => {
+       
+         return res.json();
+     }).catch((error) => {
+         console.log(error);
+     });
+  };
+
+
+  export const getPopularMovies = (page) => {
+    return fetch(
+        `/api/movies/tmdb/popular/${page}`, {
+             headers: {
+                 'Authorization': window.localStorage.getItem('token')
+             }
+         }
+     ).then(res => {
+       
+         return res.json();
+     }).catch((error) => {
+         console.log(error);
+     });
+  };
+
+  export const getNowPlayingMovies = (page) => {
+    return fetch(
+        `/api/movies/tmdb/now_playing/${page}`, {
+             headers: {
+                 'Authorization': window.localStorage.getItem('token')
+             }
+         }
+     ).then(res => {
+       
+         return res.json();
+     }).catch((error) => {
+         console.log(error);
+     });
+  };
+
+  export const getTvShows = (page) => {
+    return fetch(
+        `/api/movies/tmdb/tvShows/${page}`, {
+             headers: {
+                 'Authorization': window.localStorage.getItem('token')
+             }
+         }
+     ).then(res => {
+       
+         return res.json();
+     }).catch((error) => {
+         console.log(error);
+     });
   };

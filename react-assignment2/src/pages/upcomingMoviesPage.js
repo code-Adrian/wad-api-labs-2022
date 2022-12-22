@@ -1,14 +1,19 @@
 import React, {useState,useEffect} from "react";
 import PageTemplate from '../components/templateMovieListPage'
-import { getUpcomingMoviesPage } from "../api/tmdb-api";
+
 import { useQuery } from 'react-query';
 import Spinner from '../components/spinner';
 import PlaylistAddIcon from '../components/cardIcons/addToPlaylist'
-
+import { getUpcomingMovies } from "../api/movie-api";
 
 const UpcomingMoviesPage = (props) => {
   const [page,setPage] = useState(1)
-  const {  data, error, isLoading, isError,refetch }  = useQuery("upcoming", () => getUpcomingMoviesPage(page),{enabled: true }) 
+  const [movieResults,setMovieResults] = useState([])
+  const [moviePageResult,setMoviePageResult] = useState([])
+  const  {  data, error, isLoading, isError,refetch }  = useQuery("upcoming", () => getUpcomingMovies(page).then(result => {
+    setMovieResults(result.results)
+    setMoviePageResult(result.total_pages)
+  }),{enabled: true }) 
 
 
   useEffect(() => { 
@@ -24,13 +29,11 @@ const UpcomingMoviesPage = (props) => {
     return <h1>{error.message}</h1>
   }
     
-  const movies = data.results;
-  
-  //gets the total number of available pages for the query
-  const total_pages = data.total_pages // -- For pagination
+  const movies = movieResults;
+  const total_pages = moviePageResult;
   const favorites = movies.filter(m => m.favorite)
   localStorage.setItem('favorites', JSON.stringify(favorites))
-  //const addToFavorites = (movieId) => true 
+
 
   
   return (

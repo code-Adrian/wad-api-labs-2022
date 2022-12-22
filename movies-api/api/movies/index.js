@@ -3,7 +3,7 @@ import { movies, movieReviews, movieDetails } from './moviesData';
 import uniqid from 'uniqid'
 import movieModel from './movieModel';
 import asyncHandler from 'express-async-handler';
-import { getUpcomingMovies } from '../tmdb-api';
+import { getUpcomingMovies,getDiscoverMovies, getPopularMovies,getNowPlayingMovies,getTvShows } from '../tmdb-api';
 
 const router = express.Router(); 
 
@@ -55,9 +55,34 @@ router.post('/:id/reviews', (req, res) => {
     }
 });
 
-router.get('/tmdb/upcoming', asyncHandler( async(req, res) => {
-    const upcomingMovies = await getUpcomingMovies();
+router.get('/tmdb/upcoming/:page', asyncHandler( async(req, res) => {
+    
+    const upcomingMovies = await getUpcomingMovies(req.params.page);
     res.status(200).json(upcomingMovies);
   }));
+
+  router.get('/tmdb/discover/:page', asyncHandler( async(req, res) => {
+    const discoverMovies = await getDiscoverMovies(req.params.page);
+    res.status(200).json(discoverMovies);
+  }));
+
+  router.get('/tmdb/popular/:page', asyncHandler( async(req, res) => {
+    
+    const popularMovies = await getPopularMovies(req.params.page);
+    res.status(200).json(popularMovies);
+  }));
+
+  router.get('/tmdb/now_playing/:page', asyncHandler( async(req, res) => {
+    
+    const nowPlayingMovies = await getNowPlayingMovies(req.params.page);
+    res.status(200).json(nowPlayingMovies);
+  }));
+
+  router.get('/tmdb/tvShows/:page', asyncHandler( async(req, res) => {
+    
+    const tvShows = await getTvShows(req.params.page);
+    res.status(200).json(tvShows);
+  }));
+
 
 export default router;

@@ -46,6 +46,22 @@ router.post('/',asyncHandler( async (req, res, next) => {
       }
   }));
 
+
+  // Delete user
+  router.post('/',asyncHandler( async (req, res, next) => {
+    if (!req.body.username) {
+      res.status(401).json({success: false, msg: 'Please pass a username to delete the account.'});
+      return next();
+    }
+    if (req.query.action === 'delaccount') {
+            
+            const user = await User.findByUserName(req.body.username).deleteOne();
+            
+            //if (!user) {return res.status(401).json({ code: 401, msg: 'User deletion failed.' });}
+            //res.status(201).json({code: 201, msg: 'Successfully deleted user.'});
+        
+      }}));
+
  // Update a user
  router.put('/:id', async (req, res) => {
     if (req.body._id) delete req.body._id;

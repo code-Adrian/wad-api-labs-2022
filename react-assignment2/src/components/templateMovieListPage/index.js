@@ -6,11 +6,8 @@ import Grid from "@mui/material/Grid";
 import { Pagination } from "@mui/material";
 import {makeStyles} from "@material-ui/core"
 import Fab from "@mui/material/Fab";
-import * as auth from "firebase/auth"
 import fireapp from "../../firebase";
 import { AuthContext } from "../../contexts/authContext"
-
-
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -56,9 +53,7 @@ function MovieListPageTemplate({ movies, title, action, pages,setPage,current_pa
  
   
   let displayedMovies = movies.filter((m) => {
-    
-
-    
+        
       return m.title.toLowerCase().search(nameFilter.toLowerCase()) !== -1;
     }).filter((m) => {
       return genreId > 0 ? m.genre_ids.includes(genreId) : true;
@@ -137,7 +132,7 @@ function MovieListPageTemplate({ movies, title, action, pages,setPage,current_pa
         <Fab color="primary" variant="extended" onClick={() => context.signout()}>Sign Out!</Fab>
         </div>
         <div className={classes.deleteAccount}>
-        <Fab color="secondary" variant="extended" onClick={() => auth.deleteUser(fireapp.currentUser)}>Delete Account!</Fab>
+        <Fab color="secondary" variant="extended" onClick={() => context(fireapp.currentUser)}>Delete Account!</Fab>
         </div>
     </Grid>
     
