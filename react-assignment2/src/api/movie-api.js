@@ -117,3 +117,18 @@ export const getMovies = () => {
          console.log(error);
      });
   };
+
+  export const getTvShow = (page) => {
+    return fetch(
+        `/api/movies/tmdb/tvShow/${page}`, {
+             headers: {
+                 'Authorization': window.localStorage.getItem('token')
+             }
+         }
+     ).then(res => {
+       
+         return res.json();
+     }).catch((error) => {
+         console.log(error);
+     });
+  };

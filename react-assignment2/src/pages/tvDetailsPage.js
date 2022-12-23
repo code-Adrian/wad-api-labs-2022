@@ -1,19 +1,19 @@
-import React from "react";
+import React, {useState} from "react";
 import { useParams } from 'react-router-dom';
 import TvDetails from "../components/tvDetails/";
 import PageTemplate from "../components/templateTvShowPage";
-import { getTvShow } from '../api/tmdb-api'
 import { useQuery } from "react-query";
 import Spinner from '../components/spinner'
-
+import { getTvShow } from "../api/movie-api";
 
 const TvPage = (props) => {
   const { id } = useParams();
   
-  const { data: tvShow, error, isLoading, isError } = useQuery(
-    ["tvShow", { id: id }],
-    getTvShow
-  );
+  const [tvShow,setTvShow] = useState([])
+
+  const  {  data, error, isLoading, isError }  = useQuery(["tvShow", { id: id }],() => getTvShow(id).then(result => {
+    setTvShow(result)
+  }),{enabled: true }) 
 
   if (isLoading) {
     return <Spinner />;
