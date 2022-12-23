@@ -10,6 +10,7 @@ import Spinner from '../spinner'
 const TemplateTvShowPage = ({ tvShow, children }) => {
   const { data , error, isLoading, isError } = useQuery(
     ["images", { id: tvShow.id }],
+    
     getTvShowImages
   );
 
@@ -22,6 +23,8 @@ const TemplateTvShowPage = ({ tvShow, children }) => {
   }
   const images = data.posters 
 
+
+  
   return (
     <>
       <TvShowHeader tvShow={tvShow} />

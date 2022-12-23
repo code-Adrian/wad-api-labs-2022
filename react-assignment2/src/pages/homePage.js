@@ -11,7 +11,7 @@ const HomePage = (props) => {
   const [movieResults,setMovieResults] = useState([])
   const [moviePageResult,setMoviePageResult] = useState([])
  
-    const  {  data, error, isLoading, isError,refetch }  = useQuery("discover", () => getDiscoverMovies(page).then(result => {
+    const  {  error, isLoading, isError,refetch }  = useQuery("discover", () => getDiscoverMovies(page).then(result => {
       
       setMovieResults(result.results)
       setMoviePageResult(result.page)

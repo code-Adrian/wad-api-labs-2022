@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useState,useEffect} from "react";
 import { useParams } from 'react-router-dom';
 import TvDetails from "../components/tvDetails/";
 import PageTemplate from "../components/templateTvShowPage";
@@ -10,12 +10,21 @@ const TvPage = (props) => {
   const { id } = useParams();
   
   const [tvShow,setTvShow] = useState([])
+  const [loading, setLoading] = useState([true])
 
-  const  {  data, error, isLoading, isError }  = useQuery(["tvShow", { id: id }],() => getTvShow(id).then(result => {
+  const  { error, isError,refetch }  = useQuery("tvShow", () => getTvShow(id).then(result => {
+  
     setTvShow(result)
+    setLoading(false)
   }),{enabled: true }) 
 
-  if (isLoading) {
+  useEffect(() => { 
+    refetch();
+    // eslint-disable-next-line
+   }, []);
+
+
+  if (loading) {
     return <Spinner />;
   }
 
@@ -27,7 +36,7 @@ const TvPage = (props) => {
     <>
       {tvShow ? (
         <>
-          <PageTemplate tvShow={tvShow}>
+          <PageTemplate tvShow={tvShow} >
             <TvDetails tvShow={tvShow} />
           </PageTemplate>
         </>
