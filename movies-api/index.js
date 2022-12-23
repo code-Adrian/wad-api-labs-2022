@@ -3,6 +3,7 @@ import './seedData'
 import dotenv from 'dotenv';
 import express from 'express';
 import moviesRouter from './api/movies';
+import tvRouter from './api/tv';
 import genresRouter from './api/genres';
 import usersRouter from './api/users';
 import session from 'express-session';
@@ -31,6 +32,7 @@ app.use('/api/movies', passport.authenticate('jwt', {session: false}), moviesRou
 app.use('/api/genres',genresRouter);
 app.use('/api/movies', moviesRouter);
 app.use('/api/users', usersRouter);
+app.use('/api/tv', passport.authenticate('jwt', {session: false}),tvRouter);
 app.use(errHandler);
 app.listen(port, () => {
   console.info(`Server running at ${port}`);

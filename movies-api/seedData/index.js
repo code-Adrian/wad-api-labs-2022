@@ -1,9 +1,13 @@
 import userModel from '../api/users/userModel';
 import genreModel from '../api/genres/genreModel';
+import movieModel from '../api/movies/movieModel';
+import tvCreditsModel from '../api/tv/tvCreditsModel';
+
 import users from './users';
 import genres from './genres';
+import tvcredits from './tvCredits';
 import dotenv from 'dotenv';
-import movieModel from '../api/movies/movieModel';
+
 import movies from './movies.js';
 
 dotenv.config();
@@ -44,8 +48,20 @@ async function loadGenres() {
   }
 }
 
+async function loadCredits() {
+  console.log('load tv credits Data');
+  try {
+    await tvCreditsModel.deleteMany();
+    await tvCreditsModel.collection.insertMany(tvcredits);
+    console.info(`${tvcredits.length} credits were successfully stored.`);
+  } catch (err) {
+    console.error(`failed to Load credits Data: ${err}`);
+  }
+}
+
 if (process.env.SEED_DB) {
  // loadUsers();
   //loadGenres();//you may not need this line if you skipped the exercises
   //loadMovies();//ADD THIS LINE
+  loadCredits();
 }

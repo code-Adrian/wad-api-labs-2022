@@ -78,16 +78,6 @@ router.get('/tmdb/upcoming/:page', asyncHandler( async(req, res) => {
     res.status(200).json(nowPlayingMovies);
   }));
 
-  router.get('/tmdb/tvShows/:page', asyncHandler( async(req, res) => {
-    
-    const tvShows = await getTvShows(req.params.page);
-    res.status(200).json(tvShows);
-  }));
 
-  router.get('/tmdb/tvShow/:id', asyncHandler( async(req, res) => {
-    
-    const tvShow = await getTvShow(req.params.id);
-    res.status(200).json(tvShow);
-  }));
 
 export default router;

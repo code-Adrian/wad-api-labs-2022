@@ -105,7 +105,7 @@ export const getMovies = () => {
 
   export const getTvShows = (page) => {
     return fetch(
-        `/api/movies/tmdb/tvShows/${page}`, {
+        `/api/tv/tmdb/tvShows/${page}`, {
              headers: {
                  'Authorization': window.localStorage.getItem('token')
              }
@@ -120,7 +120,22 @@ export const getMovies = () => {
 
   export const getTvShow = (page) => {
     return fetch(
-        `/api/movies/tmdb/tvShow/${page}`, {
+        `/api/tv/tmdb/tvShow/${page}`, {
+             headers: {
+                 'Authorization': window.localStorage.getItem('token')
+             }
+         }
+     ).then(res => {
+       
+         return res.json();
+     }).catch((error) => {
+         console.log(error);
+     });
+  };
+
+  export const getTvShowCredits = (id) => {
+    return fetch(
+        `/api/tv/tmdb/tvShow/credits/${id}`, {
              headers: {
                  'Authorization': window.localStorage.getItem('token')
              }

@@ -84,3 +84,14 @@ export const getDiscoverMovies = (page) => {
      throw error
   });
  };
+
+ export const getTvCreditsTMDB = (id) => {
+  return fetch(
+    `https://api.themoviedb.org/3/tv/${id}/credits?api_key=${process.env.REACT_APP_TMDB_KEY}&language=en-US`
+  )
+    .then((res) => res.json())
+    .then((json) => {
+      
+      return json;
+    });
+};

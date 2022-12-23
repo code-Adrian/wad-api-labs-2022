@@ -1,8 +1,7 @@
 import React, { useEffect, useState }  from "react";
 import { useLocation } from "react-router-dom";
 import PageTemplate from "../components/templateTvCreditsPage";
-import { getTvCredits } from "../api/tmdb-api";
-
+import { getTvShowCredits } from "../api/movie-api";
 
 const TvCreditsPage = (props) => {
   let location = useLocation();
@@ -12,9 +11,9 @@ const TvCreditsPage = (props) => {
   const [creditsCast, setCreditsCast] = useState([]);
 
   useEffect(() => {
-    getTvCredits(tvShow.id).then((tvShow) => {
-      setCreditsCrew(tvShow.crew);
-      setCreditsCast(tvShow.cast);
+    getTvShowCredits(tvShow.id).then(result => {
+      setCreditsCrew(result.crew);
+      setCreditsCast(result.cast);
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
