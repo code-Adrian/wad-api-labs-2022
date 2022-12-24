@@ -9,23 +9,23 @@ import { MoviesContext } from "../../contexts/moviesContext";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
 import { useNavigate } from "react-router-dom";
-
+import { postReview } from "../../api/movie-api";
 
 const ratings = [
   {
-    value: 5,
+    value: 10,
     label: "Excellent",
   },
   {
-    value: 4,
+    value: 7.5,
     label: "Good",
   },
   {
-    value: 3,
+    value: 5,
     label: "Average",
   },
   {
-    value: 2,
+    value: 3,
     label: "Poor",
   },
   {
@@ -100,6 +100,8 @@ const ReviewForm = ({ movie }) => {
     review.movieId = movie.id;
     review.rating = rating;
      console.log(review);
+     var obj = { id: movie.id, results: {id: 0,author: review.author,content: review.review, rating: review.rating}}
+     postReview(obj)
     context.addReview(movie, review);
     setOpen(true); // NEW
   };

@@ -147,3 +147,15 @@ export const getMovies = () => {
          console.log(error);
      });
   };
+
+  export const postReview = (obj) => {
+    console.log(obj)
+    return fetch(`/api/movies/${obj.id}/reviews`, {
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': window.localStorage.getItem('token'),
+        },
+        body: JSON.stringify({id: obj.id, results: {id: obj.results.id, author: obj.results.author,content: obj.results.content, rating: obj.results.rating}}),
+        method: 'post',
+    }).then(res => res)
+};

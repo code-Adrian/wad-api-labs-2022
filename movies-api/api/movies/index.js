@@ -2,8 +2,9 @@ import express from 'express';
 import { movies, movieReviews, movieDetails } from './moviesData';
 import uniqid from 'uniqid'
 import movieModel from './movieModel';
+import movieReviewModel from './movieReviewModel';
 import asyncHandler from 'express-async-handler';
-import { getUpcomingMovies,getDiscoverMovies, getPopularMovies,getNowPlayingMovies,getTvShows,getTvShow } from '../tmdb-api';
+import { getUpcomingMovies,getDiscoverMovies, getPopularMovies,getNowPlayingMovies } from '../tmdb-api';
 
 const router = express.Router(); 
 
@@ -38,22 +39,52 @@ router.get('/:id/reviews', (req, res) => {
 });
 
 //Post a movie review
-router.post('/:id/reviews', (req, res) => {
-    const id = parseInt(req.params.id);
+// router.post('/:id/reviews', (req, res) => {
+//     const id = parseInt(req.params.id);
 
-    if (movieReviews.id == id) {
-        req.body.created_at = new Date();
-        req.body.updated_at = new Date();
-        req.body.id = uniqid();
-        movieReviews.results.push(req.body); //push the new review onto the list
-        res.status(201).json(req.body);
-    } else {
-        res.status(404).json({
-            message: 'The resource you requested could not be found.',
-            status_code: 404
-        });
-    }
-});
+//     if (movieReviews.id == id) {
+//         req.body.created_at = new Date();
+//         req.body.updated_at = new Date();
+//         req.body.id = uniqid();
+//         movieReviews.results.push(req.body); //push the new review onto the list
+//         res.status(201).json(req.body);
+//         console.log(movieReviews.results)
+//     } else {
+//         res.status(404).json({
+//             message: 'The resource you requested could not be found.',
+//             status_code: 404
+//         });
+//     }
+// });
+
+router.post('/:id/reviews', asyncHandler(async (req, res) => {
+    if (!req.body.id || !req.body.results) {
+        res.status(401).json({success: false, msg: 'Please provide review body.'});
+        return next();
+      }
+      const random = Math.floor(Math.random() * 10000000);
+        const id = parseInt(req.params.id);
+
+           const found = await movieReviewModel.findReviewByMovieId(id);
+           
+           if(found){
+            
+            var resultObj = {id: random, author: req.body.results.author, content: req.body.results.content, rating: req.body.results.rating}
+            await movieReviewModel.findOneAndUpdate({id: id},{$push: {results: resultObj}});
+            console.log("Found movie and pushed review.");
+    
+            res.status(201).json("Found movie and pushed review.");
+           }else{
+            
+            req.body.results.id = random;
+            movieReviewModel.create(req.body);
+            console.log("Created movie review and pushed review.");
+            res.status(201).json("Created movie review and pushed review.");
+            
+           }
+        
+    }));
+
 
 router.get('/tmdb/upcoming/:page', asyncHandler( async(req, res) => {
     

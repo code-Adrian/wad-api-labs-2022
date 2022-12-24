@@ -12,11 +12,10 @@ const HomePage = (props) => {
   const [moviePageResult,setMoviePageResult] = useState([])
  
     const  {  error, isLoading, isError,refetch }  = useQuery("discover", () => getDiscoverMovies(page).then(result => {
-      
       setMovieResults(result.results)
       setMoviePageResult(result.page)
-    }),{enabled: true }) 
 
+    }),{enabled: true }) 
 
   useEffect(() => { 
     refetch();
