@@ -25,18 +25,18 @@ router.get('/:id', asyncHandler(async (req, res) => {
 }));
 
 // Get movie reviews
-router.get('/:id/reviews', (req, res) => {
-    const id = parseInt(req.params.id);
-    // find reviews in list
-    if (movieReviews.id == id) {
-        res.status(200).json(movieReviews);
-    } else {
-        res.status(404).json({
-            message: 'The resource you requested could not be found.',
-            status_code: 404
-        });
-    }
-});
+// router.get('/:id/reviews', (req, res) => {
+//     const id = parseInt(req.params.id);
+//     // find reviews in list
+//     if (movieReviews.id == id) {
+//         res.status(200).json(movieReviews);
+//     } else {
+//         res.status(404).json({
+//             message: 'The resource you requested could not be found.',
+//             status_code: 404
+//         });
+//     }
+// });
 
 //Post a movie review
 // router.post('/:id/reviews', (req, res) => {
@@ -57,6 +57,7 @@ router.get('/:id/reviews', (req, res) => {
 //     }
 // });
 
+//Post a review
 router.post('/:id/reviews', asyncHandler(async (req, res) => {
     if (!req.body.id || !req.body.results) {
         res.status(401).json({success: false, msg: 'Please provide review body.'});
@@ -85,6 +86,19 @@ router.post('/:id/reviews', asyncHandler(async (req, res) => {
         
     }));
 
+
+    router.get('/:id/reviews', asyncHandler(async (req, res) => {
+        const id = parseInt(req.params.id);
+        const found = await movieReviewModel.findReviewByMovieId(id);
+        if (found) {
+            res.status(200).json(found);
+        } else {
+            res.status(404).json({
+                message: 'The resource you requested could not be found.',
+                status_code: 404
+            });
+        }
+    }));
 
 router.get('/tmdb/upcoming/:page', asyncHandler( async(req, res) => {
     

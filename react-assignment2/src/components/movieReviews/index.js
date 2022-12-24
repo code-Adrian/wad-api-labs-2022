@@ -7,7 +7,7 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { Link } from "react-router-dom";
-import { getMovieReviews } from "../../api/tmdb-api";
+import { getMovieReviews } from "../../api/movie-api";
 import { excerpt } from "../../util";
 
 export default function MovieReviews({ movie }) {
@@ -16,8 +16,13 @@ export default function MovieReviews({ movie }) {
 
   useEffect(() => {
     getMovieReviews(movie.id).then((reviews) => {
-      setReviews(reviews);
-      console.log(reviews)
+      if(reviews.results.length > 0){
+      setReviews(reviews.results);
+      }else{
+        var obj = { id: movie.id, results: {id: 0,author: "",content: "There are no reviews for this movie", rating: ""}}
+        reviews.results = obj
+        setReviews(reviews.results)
+      }
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -30,6 +35,7 @@ export default function MovieReviews({ movie }) {
           <TableRow>
             <TableCell >Author</TableCell>
             <TableCell align="center">Excerpt</TableCell>
+            <TableCell align="right">Rating</TableCell>
             <TableCell align="right">More</TableCell>
           </TableRow>
         </TableHead>
@@ -39,8 +45,9 @@ export default function MovieReviews({ movie }) {
               <TableCell component="th" scope="row">
                 {r.author}
               </TableCell>
-              <TableCell >{excerpt(r.content)}</TableCell>
-              <TableCell >
+              <TableCell align="center">{excerpt(r.content)}</TableCell>
+              <TableCell align="right">{excerpt(r.rating)}</TableCell>
+              <TableCell align="right">
               <Link
                   to={`/reviews/${r.id}`}
                   state={{

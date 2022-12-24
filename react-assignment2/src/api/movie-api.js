@@ -159,3 +159,18 @@ export const getMovies = () => {
         method: 'post',
     }).then(res => res)
 };
+
+export const getMovieReviews = (id) => {
+    return fetch(
+        `/api/movies/${id}/reviews`, {
+             headers: {
+                 'Authorization': window.localStorage.getItem('token')
+             }
+         }
+     ).then(res => {
+       
+         return res.json();
+     }).catch((error) => {
+         console.log(error);
+     });
+  };
