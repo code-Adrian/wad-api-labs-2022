@@ -23,6 +23,7 @@ const SignUp = () => {
       setText("Password must be atleast 5 characters long in length.")
       setColor("red");
     }
+     // eslint-disable-next-line
   }, []);
 
   return (

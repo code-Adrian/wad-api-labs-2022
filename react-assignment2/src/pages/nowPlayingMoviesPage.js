@@ -1,20 +1,21 @@
-import React, {useState,useEffect} from "react";
+import React, {useState,useEffect,useContext} from "react";
 import PageTemplate from '../components/templateMovieListPage'
-
+import { MoviesContext } from "../contexts/moviesContext";
 import { useQuery } from 'react-query';
 import Spinner from '../components/spinner';
-import PlaylistAddIcon from '../components/cardIcons/addToPlaylist'
+import AddToFavoritesIcon from '../components/cardIcons/addToFavorites'
 import { getNowPlayingMovies } from "../api/movie-api";
 
 const NowPlayingMoviesPage = (props) => {
+  const load = useContext(MoviesContext);
   const [page,setPage] = useState(1)
   const [movieResults,setMovieResults] = useState([])
   const [moviePageResult,setMoviePageResult] = useState([])
   
-  const  {  data, error, isLoading, isError,refetch }  = useQuery("now_playing", () => getNowPlayingMovies(page).then(result => {
+  const  { error, isLoading, isError,refetch }  = useQuery("now_playing", () => getNowPlayingMovies(page).then(result => {
     setMovieResults(result.results)
     setMoviePageResult(result.total_pages)
-    console.log(data)
+    load.loadFavourites();
   }),{enabled: true }) 
 
 
@@ -47,7 +48,7 @@ const NowPlayingMoviesPage = (props) => {
       movies={movies}
       setPage={setPage}
       action={(movie) => {
-        return <PlaylistAddIcon movie={movie} />
+        return <AddToFavoritesIcon movie={movie} />
       }}
     />
   );

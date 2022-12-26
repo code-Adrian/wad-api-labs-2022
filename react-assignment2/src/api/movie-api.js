@@ -174,3 +174,30 @@ export const getMovieReviews = (id) => {
          console.log(error);
      });
   };
+
+  export const addFavourite = (obj) => {
+    
+    return fetch(`/api/movies/${obj.username}/favourites`, {
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': window.localStorage.getItem('token'),
+        },
+        body: JSON.stringify({id: obj.id, username: obj.username,favourites: obj.favourites}),
+        method: 'post',
+    }).then(res => res)
+};
+
+export const getFavourites = (user) => {
+    return fetch(
+        `/api/movies/${user}/favourites`, {
+             headers: {
+                 'Authorization': window.localStorage.getItem('token')
+             }
+         }
+     ).then(res => {
+       
+         return res.json();
+     }).catch((error) => {
+         console.log(error);
+     });
+  };

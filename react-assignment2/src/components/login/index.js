@@ -4,9 +4,10 @@ import { AuthContext } from "../../contexts/authContext"
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 
+
 const Login = props => {
   const context = useContext(AuthContext);
-  
+
   
     const [textColor, setColor] = useState("white")
     const [text, setText] = useState("Login");
@@ -17,18 +18,21 @@ const Login = props => {
       const { email, password } = event.target.elements;
       try {
         await context.authenticate(email.value, password.value);
+
       } catch (error) {
        
         setText(error.toString())
         setColor("red");
       }
+       
     },
+     // eslint-disable-next-line
     []
   );
 
-  if (context.isAuthenticated === true) {
-    return <Navigate to="/" />;
-  }
+   if (context.isAuthenticated === true) {
+     return <Navigate to="/" />;
+   }
 
 
   return (

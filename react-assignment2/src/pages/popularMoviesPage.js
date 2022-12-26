@@ -1,4 +1,5 @@
-import React, {useState,useEffect} from "react";
+import React, {useState,useEffect,useContext} from "react";
+import { MoviesContext } from "../contexts/moviesContext";
 import PageTemplate from '../components/templateMovieListPage';
 import { useQuery } from 'react-query';
 import Spinner from '../components/spinner';
@@ -7,13 +8,13 @@ import { getPopularMovies } from "../api/movie-api";
 
 const HomePage = (props) => {
   const [page,setPage] = useState(1)
-
+  const load = useContext(MoviesContext);
   const [movieResults,setMovieResults] = useState([])
   const [moviePageResult,setMoviePageResult] = useState([])
-  const  {  data, error, isLoading, isError,refetch }  = useQuery("popular", () => getPopularMovies(page).then(result => {
+  const  {  error, isLoading, isError,refetch }  = useQuery("popular", () => getPopularMovies(page).then(result => {
     setMovieResults(result.results)
     setMoviePageResult(result.total_pages)
-   console.log(data)
+    load.loadFavourites();
   }),{enabled: true }) 
 
 

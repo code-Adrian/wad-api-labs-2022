@@ -1,5 +1,5 @@
-import React, {useState,useEffect} from "react";
-
+import React, {useState,useEffect,useContext} from "react";
+import { MoviesContext } from "../contexts/moviesContext";
 import PageTemplate from '../components/templateMovieListPage';
 import { useQuery } from 'react-query';
 import Spinner from '../components/spinner';
@@ -7,14 +7,17 @@ import AddToFavoritesIcon from '../components/cardIcons/addToFavorites'
 import { getDiscoverMovies } from "../api/movie-api";
 
 const HomePage = (props) => {
+  const load = useContext(MoviesContext);
   const [page,setPage] = useState(1)
   const [movieResults,setMovieResults] = useState([])
   const [moviePageResult,setMoviePageResult] = useState([])
  
+
+
     const  {  error, isLoading, isError,refetch }  = useQuery("discover", () => getDiscoverMovies(page).then(result => {
       setMovieResults(result.results)
       setMoviePageResult(result.page)
-
+      load.loadFavourites();
     }),{enabled: true }) 
 
   useEffect(() => { 
@@ -37,8 +40,8 @@ const HomePage = (props) => {
 
 
 
-  const favorites = movies.filter(m => m.favorite)
-  localStorage.setItem('favorites', JSON.stringify(favorites))
+  // const favorites = movies.filter(m => m.favorite)
+  // localStorage.setItem('favorites', JSON.stringify(favorites))
 
   return (
     

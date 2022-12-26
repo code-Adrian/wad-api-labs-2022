@@ -3,6 +3,7 @@ import { movies, movieReviews, movieDetails } from './moviesData';
 import uniqid from 'uniqid'
 import movieModel from './movieModel';
 import movieReviewModel from './movieReviewModel';
+import movieFavouriteModel from './movieFavouriteModel';
 import asyncHandler from 'express-async-handler';
 import { getUpcomingMovies,getDiscoverMovies, getPopularMovies,getNowPlayingMovies } from '../tmdb-api';
 
@@ -76,20 +77,52 @@ router.post('/:id/reviews', asyncHandler(async (req, res) => {
     
             res.status(201).json("Found movie and pushed review.");
            }else{
-            
             req.body.results.id = random;
             movieReviewModel.create(req.body);
             console.log("Created movie review and pushed review.");
             res.status(201).json("Created movie review and pushed review.");
-            
            }
-        
     }));
 
-
+//Get Review
     router.get('/:id/reviews', asyncHandler(async (req, res) => {
         const id = parseInt(req.params.id);
         const found = await movieReviewModel.findReviewByMovieId(id);
+        if (found) {
+            res.status(200).json(found);
+        } else {
+            res.status(404).json({
+                message: 'The resource you requested could not be found.',
+                status_code: 404
+            });
+        }
+    }));
+
+    router.post('/:user/favourites', asyncHandler(async (req, res) => {
+      
+      if (!req.body.username || !req.body.favourites) {
+          res.status(401).json({success: false, msg: 'Please provide request body.'});
+          return next();
+        }
+          const random = Math.floor(Math.random() * 10000000);
+          const user = req.body.username;
+          const found = await movieFavouriteModel.findFavouriteByUsername(user);
+             
+             if(found){
+              await movieFavouriteModel.findOneAndUpdate({username: user},{$set: req.body});
+              console.log("Found user and updated favourites.")
+              res.status(201).json("Found user and updated favourites.");
+             }else{
+              req.body.id = random;
+              movieFavouriteModel.create(req.body);
+              console.log("Created user favourite collection and pushed favourite movie.");
+              res.status(201).json("Created user favourite collection and pushed favourite movie.");
+             }
+      }));
+
+      router.get('/:user/favourites', asyncHandler(async (req, res) => {
+        const user= req.params.user
+        const found = await movieFavouriteModel.findFavouriteByUsername(user);
         if (found) {
             res.status(200).json(found);
         } else {

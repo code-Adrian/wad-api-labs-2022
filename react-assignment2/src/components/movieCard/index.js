@@ -21,10 +21,14 @@ import { MoviesContext } from "../../contexts/moviesContext";
 export default function MovieCard({movie, action}) {
   const { favorites,playlists } = useContext(MoviesContext);
 
+
+
   if (favorites.find((id) => id === movie.id)) {
+    
     movie.favorite = true;
   } else {
     movie.favorite = false
+    
   }
 
   if (playlists.find((id) => id === movie.id)) {

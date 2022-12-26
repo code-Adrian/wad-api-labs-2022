@@ -1,18 +1,20 @@
-import React, {useState,useEffect} from "react";
+import React, {useState,useEffect,useContext} from "react";
 import PageTemplate from '../components/templateMovieListPage'
-
+import { MoviesContext } from "../contexts/moviesContext";
 import { useQuery } from 'react-query';
 import Spinner from '../components/spinner';
-import PlaylistAddIcon from '../components/cardIcons/addToPlaylist'
+import AddToFavoritesIcon from '../components/cardIcons/addToFavorites'
 import { getUpcomingMovies } from "../api/movie-api";
 
 const UpcomingMoviesPage = (props) => {
+  const load = useContext(MoviesContext);
   const [page,setPage] = useState(1)
   const [movieResults,setMovieResults] = useState([])
   const [moviePageResult,setMoviePageResult] = useState([])
-  const  {  data, error, isLoading, isError,refetch }  = useQuery("upcoming", () => getUpcomingMovies(page).then(result => {
+  const  { error, isLoading, isError,refetch }  = useQuery("upcoming", () => getUpcomingMovies(page).then(result => {
     setMovieResults(result.results)
     setMoviePageResult(result.total_pages)
+    load.loadFavourites();
   }),{enabled: true }) 
 
 
@@ -43,7 +45,7 @@ const UpcomingMoviesPage = (props) => {
       movies={movies}
       setPage={setPage}
       action={(movie) => {
-        return <PlaylistAddIcon movie={movie} />
+        return <AddToFavoritesIcon movie={movie} />
       }}
     />
   );
