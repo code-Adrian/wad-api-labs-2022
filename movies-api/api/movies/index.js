@@ -106,14 +106,15 @@ router.post('/:id/reviews', asyncHandler(async (req, res) => {
         }
           const random = Math.floor(Math.random() * 10000000);
           const user = req.body.username;
+          req.body.id = random;
           const found = await movieFavouriteModel.findFavouriteByUsername(user);
              
              if(found){
-              await movieFavouriteModel.findOneAndUpdate({username: user},{$set: req.body});
+              await movieFavouriteModel.collection.findOneAndUpdate({username: user},{$set: req.body},{upsert: true});
+              
               console.log("Found user and updated favourites.")
               res.status(201).json("Found user and updated favourites.");
              }else{
-              req.body.id = random;
               movieFavouriteModel.create(req.body);
               console.log("Created user favourite collection and pushed favourite movie.");
               res.status(201).json("Created user favourite collection and pushed favourite movie.");

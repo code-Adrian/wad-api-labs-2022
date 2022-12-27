@@ -149,7 +149,6 @@ export const getMovies = () => {
   };
 
   export const postReview = (obj) => {
-    console.log(obj)
     return fetch(`/api/movies/${obj.id}/reviews`, {
         headers: {
             'Content-Type': 'application/json',

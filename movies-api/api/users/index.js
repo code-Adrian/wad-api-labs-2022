@@ -55,10 +55,14 @@ router.post('/',asyncHandler( async (req, res, next) => {
     }
     if (req.query.action === 'delaccount') {
             
-            const user = await User.findByUserName(req.body.username).deleteOne();
-            
-            //if (!user) {return res.status(401).json({ code: 401, msg: 'User deletion failed.' });}
-            //res.status(201).json({code: 201, msg: 'Successfully deleted user.'});
+            const user = await User.findByUserName(req.body.username);
+            if(user){
+              user.deleteOne();
+              res.status(201).json({code: 201, msg: 'Successfully deleted user.'});
+            }else{
+              res.status(401).json({ code: 401, msg: 'User deletion failed.' });
+            }
+
         
       }}));
 
@@ -75,7 +79,7 @@ router.post('/',asyncHandler( async (req, res, next) => {
     }
 });
 
-//Add a favourite. No Error Handling Yet. Can add duplicates too!
+//
 router.post('/:userName/favourites', asyncHandler(async (req, res) => {
     const newFavourite = req.body.id;
     const userName = req.params.userName;

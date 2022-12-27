@@ -42,11 +42,11 @@ export const AuthContextProvider = (props) => {
   }
 
 
-const deleteaccount = async (username) => {
+const deleteaccount = async () => {
   signout()
-  const result = await deleteUser(username)
-  
-  return (result.code === 201) ? true : false;
+  const result = await deleteUser(userName)
+  setIsAuthenticated(false);
+  //return (result.code === 201) ? true : false;
 }
 
   return (

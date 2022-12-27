@@ -132,7 +132,7 @@ function MovieListPageTemplate({ movies, title, action, pages,setPage,current_pa
         <Fab color="primary" variant="extended" onClick={() => context.signout()}>Sign Out!</Fab>
         </div>
         <div className={classes.deleteAccount}>
-        <Fab color="secondary" variant="extended" onClick={() => context(fireapp.currentUser)}>Delete Account!</Fab>
+        <Fab color="secondary" variant="extended" onClick={() => console.log("Not working")}>Delete Account!</Fab>
         </div>
     </Grid>
     
