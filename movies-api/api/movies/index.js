@@ -1,6 +1,4 @@
 import express from 'express';
-import { movies, movieReviews, movieDetails } from './moviesData';
-import uniqid from 'uniqid'
 import movieModel from './movieModel';
 import movieReviewModel from './movieReviewModel';
 import movieFavouriteModel from './movieFavouriteModel';
@@ -24,39 +22,6 @@ router.get('/:id', asyncHandler(async (req, res) => {
         res.status(404).json({message: 'The resource you requested could not be found.', status_code: 404});
     }
 }));
-
-// Get movie reviews
-// router.get('/:id/reviews', (req, res) => {
-//     const id = parseInt(req.params.id);
-//     // find reviews in list
-//     if (movieReviews.id == id) {
-//         res.status(200).json(movieReviews);
-//     } else {
-//         res.status(404).json({
-//             message: 'The resource you requested could not be found.',
-//             status_code: 404
-//         });
-//     }
-// });
-
-//Post a movie review
-// router.post('/:id/reviews', (req, res) => {
-//     const id = parseInt(req.params.id);
-
-//     if (movieReviews.id == id) {
-//         req.body.created_at = new Date();
-//         req.body.updated_at = new Date();
-//         req.body.id = uniqid();
-//         movieReviews.results.push(req.body); //push the new review onto the list
-//         res.status(201).json(req.body);
-//         console.log(movieReviews.results)
-//     } else {
-//         res.status(404).json({
-//             message: 'The resource you requested could not be found.',
-//             status_code: 404
-//         });
-//     }
-// });
 
 //Post a review
 router.post('/:id/reviews', asyncHandler(async (req, res) => {
@@ -113,11 +78,11 @@ router.post('/:id/reviews', asyncHandler(async (req, res) => {
               await movieFavouriteModel.collection.findOneAndUpdate({username: user},{$set: req.body},{upsert: true});
               
               console.log("Found user and updated favourites.")
-              res.status(201).json("Found user and updated favourites.");
+              res.status(201).json({success: false, msg:"Found user and updated favourites."});
              }else{
               movieFavouriteModel.create(req.body);
               console.log("Created user favourite collection and pushed favourite movie.");
-              res.status(201).json("Created user favourite collection and pushed favourite movie.");
+              res.status(201).json({success: false, msg:"Created user favourite collection and pushed favourite movie."});
              }
       }));
 
@@ -135,26 +100,55 @@ router.post('/:id/reviews', asyncHandler(async (req, res) => {
     }));
 
 router.get('/tmdb/upcoming/:page', asyncHandler( async(req, res) => {
-    
     const upcomingMovies = await getUpcomingMovies(req.params.page);
-    res.status(200).json(upcomingMovies);
+    if(upcomingMovies){
+        if(JSON.stringify(upcomingMovies).includes("results")){
+        res.status(200).json(upcomingMovies);
+        }else{
+          res.status(404).json({success: false, msg:'Upcoming movie page not found for page: '+req.params.page});
+        }
+      }else{
+        res.status(404).json({success: false, msg:'Upcoming movie page request failed'});
+      }
   }));
 
   router.get('/tmdb/discover/:page', asyncHandler( async(req, res) => {
     const discoverMovies = await getDiscoverMovies(req.params.page);
-    res.status(200).json(discoverMovies);
+    if(discoverMovies){
+        if(JSON.stringify(discoverMovies).includes("results")){
+        res.status(200).json(discoverMovies);
+        }else{
+          res.status(404).json({success: false, msg:'discover movie page not found for page: '+req.params.page});
+        }
+      }else{
+        res.status(404).json({success: false, msg:'discover movie page request failed'});
+      }
   }));
 
   router.get('/tmdb/popular/:page', asyncHandler( async(req, res) => {
-    
     const popularMovies = await getPopularMovies(req.params.page);
-    res.status(200).json(popularMovies);
+    if(popularMovies){
+        if(JSON.stringify(popularMovies).includes("results")){
+        res.status(200).json(popularMovies);
+        }else{
+          res.status(404).json({success: false, msg:'popular movie page not found for page: '+req.params.page});
+        }
+      }else{
+        res.status(404).json({success: false, msg:'popular movie page request failed'});
+      }
   }));
 
   router.get('/tmdb/now_playing/:page', asyncHandler( async(req, res) => {
-    
     const nowPlayingMovies = await getNowPlayingMovies(req.params.page);
-    res.status(200).json(nowPlayingMovies);
+    if(nowPlayingMovies){
+        if(JSON.stringify(nowPlayingMovies).includes("results")){
+        res.status(200).json(nowPlayingMovies);
+        }else{
+          res.status(404).json({success: false, msg:'Now playing movie page not found for page: '+req.params.page});
+        }
+      }else{
+        res.status(404).json({success: false, msg:'Now playing movie page request failed'});
+      }
   }));
 
 

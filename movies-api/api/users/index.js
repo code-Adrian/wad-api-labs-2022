@@ -9,9 +9,12 @@ const router = express.Router(); // eslint-disable-line
 // Get all users
 router.get('/', async (req, res) => {
     const users = await User.find();
+    if(users.length > 0){
     res.status(200).json(users);
+    }else{
+      res.status(401).json({success: false, msg: "There are no users in the database."});
+    }
 });
-
 
 
 // Register OR authenticate a user

@@ -15,10 +15,10 @@ router.get('/tmdb/tvShows/:page', asyncHandler( async(req, res) => {
     if(JSON.stringify(tvShows).includes("results")){
     res.status(200).json(tvShows);
     }else{
-      res.status(404).json('Tv Shows not found for page: '+req.params.page);
+      res.status(404).json({success: false, msg:'Tv Shows not found for page: '+req.params.page});
     }
   }else{
-    res.status(404).json('Tv Show page request failed');
+    res.status(404).json({success: false, msg:'Tv Show page request failed'});
   }
   }));
 
@@ -29,10 +29,10 @@ router.get('/tmdb/tvShows/:page', asyncHandler( async(req, res) => {
       if(JSON.stringify(tvShow).includes("episode_run_time")){
       res.status(200).json(tvShow);
       }else{
-        res.status(404).json('Tv Show not found for id: '+req.params.id);
+        res.status(404).json({success: false, msg:'Tv Show not found for id: '+req.params.id});
       }
     }else{
-      res.status(404).json('Tv Show request failed');
+      res.status(404).json({success: false, msg:'Tv Show request failed'});
     }
     
   }));
@@ -51,11 +51,11 @@ router.get('/tmdb/tvShows/:page', asyncHandler( async(req, res) => {
             console.log("TMDB credits acquired.")
             res.status(200).json(credit2);
           }else{
-            res.status(404).json('No Credits were found for id: '+req.params.id);
+            res.status(404).json({success: false, msg:'No Credits were found for id: '+req.params.id});
           }
          
         }else{
-          res.status(404).json('Credits request failed');
+          res.status(404).json({success: false, msg:'Credits request failed'});
         }
     }
 }));
