@@ -4,28 +4,28 @@ export const getUpcomingMovies = (page) => {
     return fetch(
         `https://api.themoviedb.org/3/movie/upcoming?api_key=${process.env.REACT_APP_TMDB_KEY}&language=en-US&include_adult=false&page=${page}`
     ).then((response) => {
-        if (!response.ok) {
-            throw new Error(response.json().message);
-        }
-        return response.json();
+      if (!response.ok) {
+       return response.json();
+      }
+      return response.json();
     })
-        .catch((error) => {
-            throw error
-        });
-};
+    .catch((error) => {
+      throw error
+   });
+  };
 
 export const getDiscoverMovies = (page) => {
     return fetch(
       `https://api.themoviedb.org/3/discover/movie?api_key=${process.env.REACT_APP_TMDB_KEY}&language=en-US&include_adult=false&include_video=false&page=${page}`
     ).then((response) => {
       if (!response.ok) {
-        throw new Error(response.json().message);
+       return response.json();
       }
       return response.json();
     })
     .catch((error) => {
-       throw error
-    });
+      throw error
+   });
   };
 
   export const getNowPlayingMovies = (page) => {
@@ -33,13 +33,13 @@ export const getDiscoverMovies = (page) => {
       `https://api.themoviedb.org/3/movie/now_playing?api_key=${process.env.REACT_APP_TMDB_KEY}&language=en-US&include_adult=false&page=${page}`
     ).then((response) => {
       if (!response.ok) {
-        throw new Error(response.json().message);
+       return response.json();
       }
       return response.json();
     })
     .catch((error) => {
-       throw error
-    });
+      throw error
+   });
   };
 
   export const getPopularMovies = async (page) => {
@@ -47,13 +47,13 @@ export const getDiscoverMovies = (page) => {
       `https://api.themoviedb.org/3/movie/popular?api_key=${process.env.REACT_APP_TMDB_KEY}&language=en-US&include_adult=false&page=${page}`
     ).then((response) => {
       if (!response.ok) {
-        throw new Error(response.json().message);
+       return response.json();
       }
       return response.json();
     })
     .catch((error) => {
-       throw error
-    });
+      throw error
+   });
   };
 
   export const getTvShows = async (page) => {
@@ -61,13 +61,13 @@ export const getDiscoverMovies = (page) => {
       `https://api.themoviedb.org/3/tv/popular?api_key=${process.env.REACT_APP_TMDB_KEY}&language=en-US&page=${page}`
     ).then((response) => {
       if (!response.ok) {
-        throw new Error(response.json().message);
+       return response.json();
       }
       return response.json();
     })
     .catch((error) => {
-       throw error
-    });
+      throw error
+   });
   };
 
 
@@ -76,7 +76,7 @@ export const getDiscoverMovies = (page) => {
      `https://api.themoviedb.org/3/tv/${id}?api_key=${process.env.REACT_APP_TMDB_KEY}`
    ).then((response) => {
      if (!response.ok) {
-       throw new Error(response.json().message);
+      return response.json();
      }
      return response.json();
    })
@@ -88,10 +88,13 @@ export const getDiscoverMovies = (page) => {
  export const getTvCreditsTMDB = (id) => {
   return fetch(
     `https://api.themoviedb.org/3/tv/${id}/credits?api_key=${process.env.REACT_APP_TMDB_KEY}&language=en-US`
-  )
-    .then((res) => res.json())
-    .then((json) => {
-      
-      return json;
-    });
+  ).then((response) => {
+    if (!response.ok) {
+     return response.json();
+    }
+    return response.json();
+  })
+  .catch((error) => {
+    throw error
+ });
 };
