@@ -69,7 +69,7 @@ ______________________
 
 + Login view uses proxy 8080 to interact with Web API to trigger authentication and sign into the web app front page.
 
-+ Login view uses proxy 8080 to interact with Web API to trigger registration and authentication to sign into the web app front page.
++ Sign up view uses proxy 8080 to interact with Web API to trigger registration and authentication to sign into the web app front page.
 
 + Home view (Discover movies) uses proxy 8080 to interact with the Web API to receive paginated JSON responses depending on the page selected by the user.
 
