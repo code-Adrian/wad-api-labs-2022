@@ -28,7 +28,14 @@ router.post('/',asyncHandler( async (req, res, next) => {
         var compare = regEx.test(req.body.password)
         if(compare){
             await User.create(req.body);
-            res.status(201).json({code: 201, msg: 'Successful created new user.'});
+            const user = await User.findByUserName(req.body.username);
+            if(user){
+              const token = jwt.sign(req.body.username, process.env.SECRET);
+            res.status(201).json({code: 201, msg: 'Successful created new user.',token: 'BEARER '+token});
+            }else{
+              
+            }
+            
         }else{
             res.status(401).json({success: false, msg: 'Please ensure password is at least 5 characters long and contains at least one number and one letter'});
         }

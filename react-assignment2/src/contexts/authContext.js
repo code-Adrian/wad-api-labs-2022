@@ -14,7 +14,7 @@ export const AuthContextProvider = (props) => {
   const setToken = (data) => {
     localStorage.setItem("token", data);
     setAuthToken(data);
-    console.log(authToken);
+    console.log("Welcome, the auth token is: " + authToken);
   }
 
   const authenticate = async (username, password) => {
@@ -28,8 +28,8 @@ export const AuthContextProvider = (props) => {
 
   const register = async (username, password) => {
     const result = await signup(username, password);
-    console.log(result.code);
     if(result.code === 201){
+      setToken(result.token)
       setUserName(username);
       setIsAuthenticated(true);
       
@@ -44,9 +44,8 @@ export const AuthContextProvider = (props) => {
 
 const deleteaccount = async () => {
   signout()
-  const result = await deleteUser(userName)
+  await deleteUser(userName)
   setIsAuthenticated(false);
-  //return (result.code === 201) ? true : false;
 }
 
   return (

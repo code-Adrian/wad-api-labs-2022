@@ -6,7 +6,6 @@ import Grid from "@mui/material/Grid";
 import { Pagination } from "@mui/material";
 import {makeStyles} from "@material-ui/core"
 import Fab from "@mui/material/Fab";
-import fireapp from "../../firebase";
 import { AuthContext } from "../../contexts/authContext"
 
 const useStyles = makeStyles(() => ({

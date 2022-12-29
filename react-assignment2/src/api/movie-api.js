@@ -197,6 +197,5 @@ export const getFavourites = (user) => {
        
          return res.json();
      }).catch((error) => {
-         console.log(error);
      });
   };
