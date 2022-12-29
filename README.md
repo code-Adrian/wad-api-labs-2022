@@ -17,10 +17,6 @@ A bullet-point list of the ADDITIONAL features you have implemented in the API *
 
 ## API Configuration
 
-Describe any configuration that needs to take place before running the API. For example, creating an `.env` file and what variables to put in it. Give an example of how this might be done.
-
-REMEMBER: DON'T PUT YOUR OWN USERNAMES/PASSWORDS/AUTH KEYS IN THE README OR ON GITHUB, just placeholders as indicated below:
-
 Movies-API config
 ______________________
 NODE_ENV = production
